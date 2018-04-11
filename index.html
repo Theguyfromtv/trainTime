@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>New York Times Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/locale/en-gb.js"</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4 text-center">
+                Train Schedule</h1>
+        </div>
+    </div>
+    <div class="container">
+            <div class="row">
+                    <div class="col-md-12">
+                        <!--Card for enitre input-->
+                        <div class="card mt-5 mb-5">
+                            <div class="card-header">
+                                <i class="fas fa-table"></i>
+                                employees
+                            </div>
+                            <div class="card-body">
+                                <table id="employeeTable" style="width:100%">
+                                    <tr>
+                                        <th>Train Name</th>
+                                        <th>Destination</th>
+                                        <th>First Train</th>
+                                        <th>Frequency(min)</th>
+                                        <th>Next Train</th>
+                                        <th>Minutes Away</th>
+                                    </tr>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!--Card for enitre input-->
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <i class="far fa-list-alt"></i>
+                        Employee Details
+                    </div>
+                    <div class="card-body border">
+                        <form>
+                            <!--Forms for input-->
+                            <!--search form-->
+                            <div class="form-group">
+                                <label>Train Name:</label>
+                                <input type="name" class="form-control" id="name">
+                            </div>
+                            <!--dropdown for # of records-->
+                            <div class="form-group">
+                                <label>Destination:</label>
+                                <input type="destination" class="form-control" id="destination">
+                            </div>
+                            <!--start year for record-->
+                            <div class="form-group">
+                                <label>First train hh:mm (military time):</label>
+                                <input type="text" class="form-control" id="firstTrain">
+                            </div>
+                            <!--end year for records-->
+                            <div class="form-group">
+                                <label>Frequency:</label>
+                                <input type="frequency" class="form-control" id="frequency">
+                            </div>
+
+                            <button type="add" class="btn btn-secondary" id="add">
+                                add</button>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   </div>
+
+   <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+   <!--<script src="main.js"></script>-->
+   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+   <script src="main.js"></script>
+
+
+
+
+
+   <script>
+
+
+    $("#add").on("click", function(){
+    event.preventDefault();
+       var name = $("#name").val().trim();
+       var destination = $("#destination").val().trim();
+       var firstTrain = $("#firstTrain").val().trim();
+       var frequency = $("#frequency").val().trim();
+       var convertedTime = moment(firstTrain, "HH:mm").subtract(1, "years");
+        console.log("converted time:" +convertedTime);
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+        var diffTime = moment().diff(moment(convertedTime), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+        var tRemainder = diffTime % frequency;
+        console.log(tRemainder);
+        var tMinutesTillTrain = frequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+        var nextTrainStr=(moment(nextTrain).format("hh:mm"));
+        nextTrainStr.toString();
+        console.log(nextTrainStr);
+        addTrain(name, destination, firstTrain, frequency, nextTrainStr, tMinutesTillTrain )
+    });
+
+
+
+
+
+
+
+// Minute Until Train
+
+
+// Next Train
+
+
+        
+       //addEmployee(name, role, startDate ,positiveAmount, monthlyRate, totalBilled);
+
+
+
+
+   </script>
+
+</body>
+
+</html>
